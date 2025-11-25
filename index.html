@@ -1,1 +1,494 @@
-сайта не будет
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Луна — Liquid Glass AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 1. ПЕРЕМЕННЫЕ И БАЗА --- */
+        :root {
+            --bg-color: #030014; /* Очень темный, почти черный фиолетовый */
+            --text-color: #ffffff;
+            --text-secondary: #b4b4d6;
+            
+            /* Палитра "Liquid" */
+            --liquid-1: #4f16e9; /* Яркий фиолетовый */
+            --liquid-2: #8f00ff; /* Неоновый пурпур */
+            --liquid-3: #00d4ff; /* Голубой циан для акцентов */
+            
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shine: rgba(255, 255, 255, 0.15);
+            
+            --font-main: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* --- 2. ЖИДКИЙ ФОН (LIQUID BACKGROUND) --- */
+        .liquid-wrapper {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 50%, #1a103c 0%, #030014 100%);
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.7;
+            animation: float 20s infinite alternate;
+        }
+
+        .blob-1 {
+            width: 60vw; height: 60vw;
+            background: var(--liquid-1);
+            top: -10%; left: -10%;
+            animation-duration: 25s;
+        }
+
+        .blob-2 {
+            width: 50vw; height: 50vw;
+            background: var(--liquid-2);
+            bottom: -10%; right: -10%;
+            animation-duration: 30s;
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            width: 30vw; height: 30vw;
+            background: var(--liquid-3);
+            top: 40%; left: 40%;
+            filter: blur(60px);
+            opacity: 0.4;
+            animation-duration: 20s;
+            animation-delay: -10s;
+        }
+
+        /* Шум для текстуры */
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PHBmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjY1IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI25vaXNlKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==');
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        /* --- 3. ИНТЕРФЕЙС --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 60px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            /* Легкий блюр для навигации */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo span { color: var(--liquid-3); }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:not(.btn-small):hover { color: #fff; }
+
+        .btn-small {
+            padding: 10px 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            color: white !important;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.05);
+            margin-left: 20px !important; /* Чуть уменьшил отступ между кнопками */
+        }
+        .btn-small:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: row; /* Текст слева, графика справа (или на фоне) */
+            align-items: center;
+            justify-content: space-between;
+            padding: 120px 60px 60px;
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            flex: 1;
+            z-index: 2;
+            max-width: 700px;
+        }
+
+        /* Стиль "Жидкого стекла" для текста */
+        h1 {
+            font-size: clamp(3.5rem, 6vw, 6rem); /* Огромный текст как на референсе */
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            letter-spacing: -0.02em;
+        }
+        
+        h1 span {
+            display: block; /* Каждая фраза с новой строки */
+        }
+        
+        .highlight {
+            background: linear-gradient(90deg, #fff, #b8a5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Бэйджики (Glassmorphism Pills) */
+        .badges-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .glass-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .glass-badge i { margin-right: 8px; font-style: normal; }
+        .glass-badge.active { border-color: var(--liquid-1); color: #fff; }
+
+        p.subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin-bottom: 50px;
+            line-height: 1.5;
+        }
+
+        /* STATS (Цифры внизу) */
+        .stats-row {
+            display: flex;
+            gap: 60px;
+            margin-top: 60px;
+        }
+        
+        .stat-item h4 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        
+        .stat-item p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 3D ILLUSION / GRAPHIC (Справа) */
+        .hero-graphic {
+            flex: 1;
+            height: 100%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Имитация жидкой 3D фигуры через CSS */
+        .liquid-shape-container {
+            width: 500px;
+            height: 600px;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .glass-card-float {
+            position: absolute;
+            background: rgba(20, 20, 40, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.3); /* Блик сверху */
+            border-left: 1px solid rgba(255, 255, 255, 0.3); /* Блик слева */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: float-card 6s ease-in-out infinite;
+        }
+
+        .card-1 {
+            top: 20%; right: 10%;
+            width: 220px;
+            z-index: 2;
+        }
+        
+        .card-2 {
+            bottom: 20%; left: 0%;
+            width: 260px;
+            animation-delay: 1.5s;
+            z-index: 3;
+            background: rgba(40, 30, 60, 0.5); /* Чуть темнее */
+        }
+
+        .card-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .status-dot {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #fff;
+        }
+        .dot-red { background: linear-gradient(135deg, #ff4d4d, #b30000); }
+        .dot-purple { background: linear-gradient(135deg, #bd00ff, #5b00b3); }
+
+        @keyframes float-card {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        /* --- FEATURES SECTION (ОБНОВЛЕННАЯ) --- */
+        .features {
+            padding: 100px 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: linear-gradient(160deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 30px;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.06), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        .feature-card:hover::before { opacity: 1; }
+
+        .feature-card h3 { 
+            font-size: 1.5rem; 
+            margin-bottom: 15px; 
+            color: #fff; 
+        }
+        .feature-card p { color: #b4b4d6; }
+
+        /* --- АДАПТИВ --- */
+        @media (max-width: 1024px) {
+            .hero { flex-direction: column; text-align: center; padding-top: 150px; }
+            .hero-content { align-items: center; display: flex; flex-direction: column; }
+            .badges-row { justify-content: center; }
+            .stats-row { justify-content: center; }
+            h1 { font-size: 3.5rem; }
+            .hero-graphic { margin-top: 60px; }
+            .liquid-shape-container { width: 100%; height: 400px; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ЖИДКИЙ ФОН -->
+    <div class="liquid-wrapper">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="noise-overlay"></div>
+    </div>
+
+    <nav>
+        <div class="logo">
+            <span>◆</span> LUNA
+        </div>
+        <div class="nav-links">
+            <a href="#features">Функции</a>
+            <a href="#about">О нас</a>
+            <a href="#faq">FAQ</a>
+            <!-- Добавленные кнопки -->
+            <a href="https://t.me/luna_proekt" target="_blank" class="btn-small">Тг канал</a>
+            <a href="https://t.me/Ktoto_a_eto_Ia" target="_blank" class="btn-small">Купить</a>
+            <a href="#login" class="btn-small">Войти</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <!-- Стеклянные бэйджи -->
+            <div class="badges-row">
+                <div class="glass-badge active"><i>✨</i> AI Powered</div>
+                <div class="glass-badge"><i>🔒</i> Secure</div>
+                <div class="glass-badge"><i>⚡</i> Fast</div>
+            </div>
+
+            <h1>
+                Улучшаем Твой <span class="highlight">Цифровой Опыт</span><br>
+                Интеллектом
+            </h1>
+            
+            <p class="subtitle">
+                Луна — это не просто голосовой ассистент. Это жидкий интеллект, который адаптируется под твои задачи, управляет домом и защищает данные.
+            </p>
+
+            <!-- Статистика -->
+            <div class="stats-row">
+                <div class="stat-item">
+                    <h4>30K+</h4>
+                    <p>Пользователей</p>
+                </div>
+                <div class="stat-item">
+                    <h4>100K+</h4>
+                    <p>Запросов в день</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-graphic">
+            <div class="liquid-shape-container">
+                <!-- Плавающие стеклянные карточки -->
+                <div class="glass-card-float card-1">
+                    <div class="card-status">
+                        <div class="status-dot dot-red">30s</div>
+                        <span>Режим обучения</span>
+                    </div>
+                </div>
+
+                <div class="glass-card-float card-2">
+                    <div class="card-status">
+                        <div class="status-dot dot-purple">AI</div>
+                        <span>Анализ данных...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="grid">
+            <div class="feature-card" onmousemove="handleMouseMove(event)">
+                <h3>Умный дом</h3>
+                <p>Полный контроль над экосистемой твоего дома. Свет, климат, безопасность — всё в одном плавном интерфейсе.</p>
+            </div>
+            <div class="feature-card" onmousemove="handleMouseMove(event)">
+                <h3>Нейросеть</h3>
+                <p>Контекстное понимание диалога. Луна помнит, о чем вы говорили неделю назад.</p>
+            </div>
+            <div class="feature-card" onmousemove="handleMouseMove(event)">
+                <h3>Приватность</h3>
+                <p>Ваши данные зашифрованы и никогда не покидают устройство без вашего ведома.</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Эффект подсветки карточек при наведении
+        function handleMouseMove(e) {
+            const card = e.currentTarget;
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        }
+    </script>
+</body>
+</html>
