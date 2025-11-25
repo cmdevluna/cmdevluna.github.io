@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luna</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>Луна — Liquid Glass AI</title>
+    <!-- Подключаем шрифт из примера (index.css) -->
+    <link href="https://v1.fontapi.ir/css/SFProDisplay" rel="stylesheet">
     
     <style>
-        /* --- 1. БАЗОВЫЕ НАСТРОЙКИ --- */
+        /* --- 1. БАЗОВЫЕ НАСТРОЙКИ (Обновлено из index.css) --- */
         :root {
             --bg-color: #000000;
             --text-color: rgba(255, 255, 255, 0.95);
@@ -20,7 +19,8 @@
             --accent-2: #8f00ff;
             --accent-3: #00d4ff;
 
-            --font-main: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+            /* Шрифт из примера */
+            --font-main: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -62,7 +62,7 @@
             100% { transform: translate(30px, 50px); }
         }
 
-        /* --- 3. LIQUID GLASS COMPONENTS --- */
+        /* --- 3. LIQUID GLASS COMPONENTS (Стили из index.css и header.css) --- */
         
         .highlight {
             position: relative;
@@ -75,7 +75,7 @@
             color: var(--text-color);
             overflow: hidden;
             isolation: isolate;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
         }
 
         .highlight::before {
@@ -84,11 +84,19 @@
             inset: 0;
             border-radius: 40px;
             padding: 1.5px;
-            background: linear-gradient(145deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0.05) 100%);
+            background: linear-gradient(149deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0.05) 100%);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             pointer-events: none;
+        }
+
+        /* Специфичный стиль для интерактивных кнопок (как в header.css .button:hover) */
+        .highlight.interactive:hover {
+            background: rgba(40, 40, 40, 0.5);
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            cursor: pointer;
         }
 
         .pill {
@@ -157,6 +165,7 @@
         .nav-link { color: var(--text-desc); text-decoration: none; transition: 0.3s; }
         .nav-link:hover { color: #fff; }
 
+        /* Стиль для кнопки купить в хедере */
         .btn-glass {
             padding: 10px 24px;
             border-radius: 20px;
@@ -340,9 +349,10 @@
             <h1>Твой Голос — <br><span class="gradient-text">Твоя Власть</span></h1>
             <p class="hero-desc">Луна V1.3: управление системой, умный веб-поиск и развлечения. Полный контроль без клавиатуры.</p>
             
-            <div class="highlight pill" style="padding: 15px 35px; cursor: pointer;">
-                Скачать сборку →
-            </div>
+            <!-- Заменена кнопка на "Купить" с интерактивным классом -->
+            <a href="https://t.me/Ktoto_a_eto_Ia" target="_blank" class="highlight pill interactive" style="padding: 15px 35px; text-decoration: none; color: white;">
+                Купить доступ →
+            </a>
         </div>
 
         <div class="stack-container">
