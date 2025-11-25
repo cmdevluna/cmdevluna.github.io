@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 1. БАЗОВЫЕ НАСТРОЙКИ (ИЗ ПРИМЕРА + LUNA) --- */
+        /* --- 1. БАЗОВЫЕ НАСТРОЙКИ --- */
         :root {
             --bg-color: #000000;
             --text-color: rgba(255, 255, 255, 0.95);
@@ -20,7 +20,7 @@
             --accent-2: #8f00ff;
             --accent-3: #00d4ff;
 
-            --font-main: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; /* SF Pro style */
+            --font-main: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -34,7 +34,7 @@
             min-height: 100vh;
         }
 
-        /* --- 2. ЖИДКИЙ ФОН (ОСТАВЛЯЕМ ДЛЯ АТМОСФЕРЫ) --- */
+        /* --- 2. ЖИДКИЙ ФОН --- */
         .liquid-wrapper {
             position: fixed;
             top: 0; left: 0;
@@ -62,16 +62,14 @@
             100% { transform: translate(30px, 50px); }
         }
 
-        /* --- 3. LIQUID GLASS COMPONENTS (ИЗ ВАШЕГО CSS) --- */
+        /* --- 3. LIQUID GLASS COMPONENTS --- */
         
-        /* Главный класс стекла */
         .highlight {
             position: relative;
             background: rgba(20, 20, 20, 0.35);
             backdrop-filter: blur(37.5px);
             -webkit-backdrop-filter: blur(37.5px);
             border-radius: 40px;
-            /* Важно: убираем стандартный border, он делается через mask */
             border: none; 
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             color: var(--text-color);
@@ -80,14 +78,12 @@
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        /* Магия градиентной обводки */
         .highlight::before {
             content: "";
             position: absolute;
             inset: 0;
-            border-radius: 40px; /* Должен совпадать с родителем */
-            padding: 1.5px; /* Толщина рамки */
-            /* Градиент рамки: от белого к прозрачному */
+            border-radius: 40px;
+            padding: 1.5px;
             background: linear-gradient(145deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0.05) 100%);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
@@ -95,7 +91,6 @@
             pointer-events: none;
         }
 
-        /* Маленькие пилюли (бейджи) */
         .pill {
             display: inline-flex;
             align-items: center;
@@ -109,7 +104,17 @@
         }
         .pill .icon { font-size: 18px; }
 
-        /* Карточки функций (адаптация .highlight.mod) */
+        /* Маленькие теги внутри карточек */
+        .pill.mini {
+            padding: 4px 12px;
+            font-size: 12px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+        }
+        .pill.mini::before { opacity: 0.5; }
+
         .glass-card {
             padding: 30px;
             border-radius: 30px;
@@ -119,7 +124,7 @@
             height: 100%;
         }
         
-        .glass-card::before { border-radius: 30px; } /* Коррекция радиуса рамки */
+        .glass-card::before { border-radius: 30px; }
 
         .glass-card h3 { font-size: 24px; font-weight: 500; margin-bottom: 5px; }
         .glass-card p { font-size: 16px; color: var(--text-desc); font-weight: 300; }
@@ -201,7 +206,7 @@
             max-width: 500px;
         }
 
-        /* --- 6. STACK UI (ИСПРАВЛЕННАЯ ВЕРСИЯ) --- */
+        /* --- 6. STACK UI --- */
         .stack-container {
             position: relative;
             width: 450px;
@@ -209,7 +214,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1200px; /* Увеличил перспективу */
+            perspective: 1200px;
         }
 
         .stack-card {
@@ -220,11 +225,9 @@
             flex-direction: column;
             gap: 15px;
             transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-            /* Добавил явную тень для разделения */
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
         }
 
-        /* Стилизация внутренних элементов карточки стека */
         .stack-header { display: flex; align-items: center; gap: 15px; }
         .stack-avatar { width: 50px; height: 50px; border-radius: 12px; background: linear-gradient(45deg, #333, #555); display: flex; align-items: center; justify-content: center; font-size: 20px;}
         .stack-info { display: flex; flex-direction: column; }
@@ -244,18 +247,16 @@
             50% { transform: scaleY(1.5); }
         }
 
-        /* --- ИСПРАВЛЕННЫЕ ПОЗИЦИИ КАРТОЧЕК --- */
-        /* Значительно увеличил отступы translateY, чтобы они не слипались */
-        
+        /* Позиции карточек */
         .card-bg {
-            transform: translateY(-80px) scale(0.85) translateZ(-60px); /* Было -40px */
+            transform: translateY(-80px) scale(0.85) translateZ(-60px);
             opacity: 0.5;
             z-index: 1;
-            filter: blur(3px); /* Чуть больше блюра для глубины */
+            filter: blur(3px);
         }
         
         .card-mid {
-            transform: translateY(-40px) scale(0.92) translateZ(-30px); /* Было -20px */
+            transform: translateY(-40px) scale(0.92) translateZ(-30px);
             opacity: 0.8;
             z-index: 2;
         }
@@ -263,36 +264,32 @@
         .card-front {
             transform: translateY(0) scale(1) translateZ(0);
             z-index: 3;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6); /* Тень мощнее */
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
         }
 
-        /* Анимация при наведении на контейнер - "Раскрытие" веером */
-        .stack-container:hover .card-front { 
-            transform: translateY(10px) scale(1.02); 
-        }
-        .stack-container:hover .card-mid { 
-            transform: translateY(-50px) scale(0.95) rotate(-2deg); 
-            opacity: 0.9;
-        }
-        .stack-container:hover .card-bg { 
-            transform: translateY(-110px) scale(0.88) rotate(2deg); 
-            opacity: 0.7;
-            filter: blur(1px);
-        }
+        .stack-container:hover .card-front { transform: translateY(10px) scale(1.02); }
+        .stack-container:hover .card-mid { transform: translateY(-50px) scale(0.95) rotate(-2deg); opacity: 0.9;}
+        .stack-container:hover .card-bg { transform: translateY(-110px) scale(0.88) rotate(2deg); opacity: 0.7; filter: blur(1px);}
 
         /* --- 7. FEATURES GRID --- */
         .features { padding: 100px 8%; }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
+        }
+        
+        .tags-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
         }
 
         /* --- MOBILE --- */
         @media (max-width: 1024px) {
             .hero { flex-direction: column; padding-top: 150px; text-align: center; }
             .hero-text { margin-bottom: 60px; }
-            .stack-container { width: 100%; max-width: 400px; height: 350px; margin-top: 40px; } /* Добавил отступ сверху */
+            .stack-container { width: 100%; max-width: 400px; height: 350px; margin-top: 40px; }
             
             .menu-toggle { display: flex; flex-direction: column; gap: 6px; z-index: 102; cursor: pointer; }
             .bar { width: 25px; height: 2px; background: white; }
@@ -331,45 +328,43 @@
 
     <section class="hero">
         <div class="hero-text">
-            <!-- Бейджи в стиле .highlight из примера -->
             <div style="margin-bottom: 20px;">
                 <div class="highlight pill">
-                    <span class="icon">✨</span> AI 4.0
+                    <span class="icon">🚀</span> v1.3
                 </div>
                 <div class="highlight pill">
-                    <span class="icon">🔒</span> Secure
+                    <span class="icon">🔊</span> Vosk
                 </div>
             </div>
 
-            <h1>Улучшаем Твой <br><span class="gradient-text">Цифровой Опыт</span></h1>
-            <p class="hero-desc">Луна — это жидкий интеллект, созданный для управления твоим миром. Абсолютная прозрачность, невероятная мощь.</p>
+            <h1>Твой Голос — <br><span class="gradient-text">Твоя Власть</span></h1>
+            <p class="hero-desc">Луна V1.3: управление системой, умный веб-поиск и развлечения. Полный контроль без клавиатуры.</p>
             
             <div class="highlight pill" style="padding: 15px 35px; cursor: pointer;">
-                Начать общение →
+                Скачать сборку →
             </div>
         </div>
 
-        <!-- STACK UI: Адаптация .music-stack под контекст ИИ -->
         <div class="stack-container">
             
-            <!-- Задняя карточка (История) -->
+            <!-- Карточка 1: Прошлый запрос -->
             <div class="highlight stack-card card-bg">
                 <div class="stack-header">
                     <div class="stack-avatar" style="background: #333;">🕒</div>
                     <div class="stack-info">
-                        <div class="stack-title">Вчера, 20:45</div>
-                        <div class="stack-sub">Напоминание установлено</div>
+                        <div class="stack-title">Громкость 50%</div>
+                        <div class="stack-sub">Выполнено</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Средняя карточка (Обработка) -->
+            <!-- Карточка 2: Обработка -->
             <div class="highlight stack-card card-mid">
                 <div class="stack-header">
-                    <div class="stack-avatar" style="background: var(--accent-1);">⚙️</div>
+                    <div class="stack-avatar" style="background: var(--accent-1);">🔍</div>
                     <div class="stack-info">
-                        <div class="stack-title">Анализ данных...</div>
-                        <div class="stack-sub">Обработка контекста</div>
+                        <div class="stack-title">Ищу "Фильмы 2024"</div>
+                        <div class="stack-sub">Открываю Кинопоиск...</div>
                     </div>
                 </div>
                 <div class="voice-viz">
@@ -378,21 +373,20 @@
                 </div>
             </div>
 
-            <!-- Передняя карточка (Активный ответ) -->
+            <!-- Карточка 3: Активный диалог -->
             <div class="highlight stack-card card-front">
                 <div class="stack-header">
                     <div class="stack-avatar" style="background: var(--accent-3); color: #000;">●</div>
                     <div class="stack-info">
                         <div class="stack-title">Луна слушает</div>
-                        <div class="stack-sub">Я готова выполнить команду</div>
+                        <div class="stack-sub">Жду команду...</div>
                     </div>
                 </div>
                 <p style="font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.4;">
-                    "Включить режим кино и заказать пиццу?"
+                    "Открой YouTube и выключи компьютер через 10 минут"
                 </p>
                 <div style="display: flex; gap: 10px; margin-top: 5px;">
-                    <div class="highlight pill" style="font-size: 12px; padding: 6px 15px; background: rgba(255,255,255,0.1);">Да</div>
-                    <div class="highlight pill" style="font-size: 12px; padding: 6px 15px; background: rgba(255,255,255,0.1);">Отмена</div>
+                    <div class="highlight pill" style="font-size: 12px; padding: 6px 15px; background: rgba(255,255,255,0.1);">Выполнить</div>
                 </div>
             </div>
 
@@ -401,20 +395,54 @@
 
     <section class="features" id="features">
         <div class="grid">
+            <!-- Фишка 1: Управление ПК -->
             <div class="highlight glass-card">
-                <div class="card-icon">🏠</div>
-                <h3>Умный дом</h3>
-                <p>Полная интеграция с IoT устройствами. Управляйте светом и климатом силой голоса.</p>
+                <div class="card-icon">🎛️</div>
+                <h3>Контроль Системы</h3>
+                <p>Полное управление звуком, питанием и процессами. Скажи "Выключи компьютер" или "Закрой Хром".</p>
+                <div class="tags-row">
+                    <span class="highlight pill mini">Громкость</span>
+                    <span class="highlight pill mini">Shutdown</span>
+                    <span class="highlight pill mini">Taskkill</span>
+                </div>
             </div>
+
+            <!-- Фишка 2: Веб-серфинг -->
             <div class="highlight glass-card">
-                <div class="card-icon">🧠</div>
-                <h3>Нейросеть</h3>
-                <p>Луна помнит контекст диалога. Не нужно повторять дважды, она учится на лету.</p>
+                <div class="card-icon">🌐</div>
+                <h3>Умный Веб</h3>
+                <p>Мгновенное открытие маркетплейсов и сервисов. Умный поиск в Google и Яндекс одной фразой.</p>
+                <div class="tags-row">
+                    <span class="highlight pill mini">Wildberries</span>
+                    <span class="highlight pill mini">Ozon</span>
+                    <span class="highlight pill mini">DNS</span>
+                    <span class="highlight pill mini">Avito</span>
+                </div>
             </div>
+
+            <!-- Фишка 3: Медиа -->
             <div class="highlight glass-card">
-                <div class="card-icon">🛡️</div>
-                <h3>Приватность</h3>
-                <p>Локальная обработка голоса. Ваши данные зашифрованы алгоритмом AES-256.</p>
+                <div class="card-icon">🎬</div>
+                <h3>Медиа Центр</h3>
+                <p>Интеграция с легальными стриминговыми сервисами. Просто скажи "Хочу кино".</p>
+                <div class="tags-row">
+                    <span class="highlight pill mini">Кинопоиск</span>
+                    <span class="highlight pill mini">Ivi</span>
+                    <span class="highlight pill mini">Okko</span>
+                    <span class="highlight pill mini">Start</span>
+                </div>
+            </div>
+
+            <!-- Фишка 4: Режимы -->
+            <div class="highlight glass-card">
+                <div class="card-icon">⌨️</div>
+                <h3>Гибкие Режимы</h3>
+                <p>Работает так, как удобно тебе. Голосовой ввод через Vosk или текстовый чат с клавиатуры.</p>
+                <div class="tags-row">
+                    <span class="highlight pill mini">Voice Mode</span>
+                    <span class="highlight pill mini">Text Mode</span>
+                    <span class="highlight pill mini">Fuzzy Logic</span>
+                </div>
             </div>
         </div>
     </section>
